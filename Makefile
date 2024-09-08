@@ -4,5 +4,8 @@ test:
 vtest:
 	@go test -v ./...
 
-bench:
+btest:
 	@go test ./... -bench="."
+
+ctest:
+	@go test ./... -cover
