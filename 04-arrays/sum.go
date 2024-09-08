@@ -6,3 +6,11 @@ func Sum(s []int) (sum int) {
 	}
 	return
 }
+
+func SumAll(slices ...[]int) []int {
+	sum := make([]int, 0, len(slices))
+	for i, s := range slices {
+		sum[i] = Sum(s)
+	}
+	return sum
+}
