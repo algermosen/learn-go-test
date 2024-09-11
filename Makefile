@@ -9,3 +9,6 @@ btest:
 
 ctest:
 	@go test ./... -cover
+
+rtest:
+	@go test ./... -race
