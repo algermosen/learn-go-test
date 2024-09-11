@@ -5,26 +5,15 @@ import (
 	"testing"
 )
 
-// func TestWalk(t *testing.T) {
-// 	var got []string
-// 	expected := "Susan"
-// 	sutStruct := struct {
-// 		field1 string
-// 	}{expected}
+type person struct {
+	Name    string
+	Profile profile
+}
 
-// 	want := 1
-// 	Walk(sutStruct, func(s string) {
-// 		got = append(got, s)
-// 	})
-
-// 	if len(got) != want {
-// 		t.Fatalf("Got %d calls instead of %d", len(got), want)
-// 	}
-
-// 	if got[0] != expected {
-// 		t.Errorf("got %q, want %q", got[0], expected)
-// 	}
-// }
+type profile struct {
+	Age  int
+	City string
+}
 
 func TestWalk(t *testing.T) {
 	cases := []struct {
@@ -36,6 +25,62 @@ func TestWalk(t *testing.T) {
 			"struct with one field string",
 			struct{ Name string }{"Susan"},
 			[]string{"Susan"},
+		},
+		{
+			"struct with two string fields",
+			struct {
+				Name string
+				City string
+			}{"Chris", "London"},
+			[]string{"Chris", "London"},
+		},
+		{
+			"struct with non string field",
+			struct {
+				Name string
+				Age  int
+			}{"Chris", 33},
+			[]string{"Chris"},
+		},
+		{
+			"nested fields",
+			person{
+				"Chris",
+				profile{33, "London"},
+			},
+			[]string{"Chris", "London"},
+		},
+		{
+			"pointers to things",
+			&person{
+				"Chris",
+				profile{33, "London"},
+			},
+			[]string{"Chris", "London"},
+		},
+		{
+			"slices",
+			[]profile{
+				{33, "London"},
+				{34, "Reykjavík"},
+			},
+			[]string{"London", "Reykjavík"},
+		},
+		{
+			"arrays",
+			[2]profile{
+				{33, "London"},
+				{34, "Reykjavík"},
+			},
+			[]string{"London", "Reykjavík"},
+		},
+		{
+			"maps",
+			map[string]string{
+				"Cow":   "Moo",
+				"Sheep": "Baa",
+			},
+			[]string{"Moo", "Baa"},
 		},
 	}
 
